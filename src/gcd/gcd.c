@@ -1,9 +1,31 @@
 #include "gcd.h"
 
-/* Dummy: returns 0 for every input. Replace with the binary GCD. */
 uint32_t gcd_u32(uint32_t a, uint32_t b)
 {
-    (void) a;
-    (void) b;
-    return 0;
+    if (!a)
+        return b;
+    if (!b)
+        return a;
+
+    int k = 0;
+    while (!((a & 1) || (b & 1))) {
+        k++;
+        a >>= 1;
+        b >>= 1;
+    }
+    while (!(a & 1))
+        a >>= 1;
+
+    do {
+        while (!(b & 1))
+            b >>= 1;
+        if (a > b) {
+            uint32_t tmp = a;
+            a = b;
+            b = tmp;
+        }
+        b -= a;
+    } while (b);
+
+    return a << k;
 }
